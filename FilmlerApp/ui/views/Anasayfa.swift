@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class Anasayfa: UIViewController {
 
@@ -50,7 +51,14 @@ extension Anasayfa: UICollectionViewDelegate, UICollectionViewDataSource , Hucre
         let film = filmlerListesi[indexPath.row]
         let hucre = collectionView.dequeueReusableCell(withReuseIdentifier: "filmlerHucre", for: indexPath) as! FilmlerHucre
         
-        hucre.imageViewFilm.image = UIImage(named: film.resim!)
+         //resmi burada aktarıyoruz
+        if let url = URL(string: "http://kasimadalan.pe.hu/filmler_yeni/resimler/\(film.resim)") {
+            DispatchQueue.main.async { //performanslı bir şekilde asenkron getireceğiz
+                hucre.imageViewFilm.kf.setImage(with: url)
+            }
+        }
+        
+        
         hucre.labelFiyat.text = "\(film.fiyat!) ₺"
         
         hucre.layer.borderColor = UIColor.lightGray.cgColor

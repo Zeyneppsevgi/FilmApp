@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Kingfisher
 class DetaySayfa: UIViewController {
 
     @IBOutlet weak var labelFiyat: UILabel!
@@ -19,7 +19,11 @@ class DetaySayfa: UIViewController {
 
         if let f = film {
             labelFilm.text = f.ad
-            imageViewFilm.image = UIImage(named: f.resim!)
+            if let url = URL(string: "http://kasimadalan.pe.hu/filmler_yeni/resimler/\(f.resim)") {
+                DispatchQueue.main.async { //performanslı bir şekilde asenkron getireceğiz
+                    self.imageViewFilm.kf.setImage(with: url)
+                }
+            }
             labelFiyat.text = "\(f.fiyat!) ₺"
         }
     }

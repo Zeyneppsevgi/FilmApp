@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class Filmler {
+class Filmler: Codable { //burada ise web servisin iç kısmına uygun JSON a uygun yazdık 
     var id: Int?
     var ad: String?
     var resim: String?
