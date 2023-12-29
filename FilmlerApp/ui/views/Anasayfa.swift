@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 import Kingfisher
 
 class Anasayfa: UIViewController {
@@ -22,7 +23,10 @@ class Anasayfa: UIViewController {
         filmlerCollectionView.delegate = self
         _ = viewModel.filmlerListesi.subscribe(onNext: { liste in
             self.filmlerListesi = liste
-            self.filmlerCollectionView.reloadData()
+            DispatchQueue.main.async {
+                self.filmlerCollectionView.reloadData()
+            }
+            
         })
                   
         let tasarim = UICollectionViewFlowLayout()
@@ -37,7 +41,22 @@ class Anasayfa: UIViewController {
         tasarim.itemSize = CGSize(width: itemGenislik, height: itemGenislik*1.6)
         filmlerCollectionView.collectionViewLayout = tasarim
         
-                                                                                             
+        let db = Firestore.firestore()
+        let collectionFilmler = db.collection("Filmler")
+        
+        let f1:[String:Any] = ["id":"", "ad":"Django", "resim": "django.png", "fiyat":24]
+        let f2:[String:Any] = ["id":"", "ad": "Interstellar", "resim":"interstellar.png", "fiyat":32]
+        let f3:[String:Any] = ["id":"", "ad": "Inception", "resim":"inception.png", "fiyat":16]
+        let f4:[String:Any] = ["id":"", "ad": "The Hateful Eight", "resim":"thehatefuleight.png", "fiyat":28]
+        let f5:[String:Any] = ["id":"", "ad": "The Pianist", "resim":"thepianist.png", "fiyat":18]
+        let f6:[String:Any] = ["id":"", "ad": "Anadoluda", "resim":"anadoluda.png", "fiyat":10]
+        
+        collectionFilmler.document().setData(f1)
+        collectionFilmler.document().setData(f2)
+        collectionFilmler.document().setData(f3)
+        collectionFilmler.document().setData(f4)
+        collectionFilmler.document().setData(f5)
+        collectionFilmler.document().setData(f6)
     }
 
 
@@ -51,13 +70,13 @@ extension Anasayfa: UICollectionViewDelegate, UICollectionViewDataSource , Hucre
         let film = filmlerListesi[indexPath.row]
         let hucre = collectionView.dequeueReusableCell(withReuseIdentifier: "filmlerHucre", for: indexPath) as! FilmlerHucre
         
-         //resmi burada aktarıyoruz
-        if let url = URL(string: "http://kasimadalan.pe.hu/filmler_yeni/resimler/\(film.resim)") {
-            DispatchQueue.main.async { //performanslı bir şekilde asenkron getireceğiz
+        
+        
+        if let url = URL(string: "http://kasimadalan.pe.hu/filmler_yeni/resimler/\(film.resim!)") {
+            DispatchQueue.main.async {
                 hucre.imageViewFilm.kf.setImage(with: url)
             }
         }
-        
         
         hucre.labelFiyat.text = "\(film.fiyat!) ₺"
         

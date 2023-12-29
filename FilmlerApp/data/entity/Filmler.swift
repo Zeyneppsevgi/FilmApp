@@ -6,8 +6,8 @@
 //
 
 import Foundation
-class Filmler: Codable { //burada ise web servisin iç kısmına uygun JSON a uygun yazdık 
-    var id: Int?
+class Filmler {
+    var id: String?
     var ad: String?
     var resim: String?
     var fiyat: Int?
@@ -15,7 +15,7 @@ class Filmler: Codable { //burada ise web servisin iç kısmına uygun JSON a uy
     init(){
         
     }
-    init(id: Int, ad: String, resim: String, fiyat: Int) {
+    init(id: String, ad: String, resim: String, fiyat: Int) {
         self.id = id
         self.ad = ad
         self.resim = resim

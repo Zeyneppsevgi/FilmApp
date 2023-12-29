@@ -4,19 +4,19 @@
 //
 //  Created by Zeynep Sevgi on 5.11.2023.
 //
-
 import Foundation
 import RxSwift
 
 class AnasayfaViewModel {
-    var filmlerListesi = BehaviorSubject<[Filmler]>(value: [Filmler]())
-
     var frepo = FilmlerDaoRepository()
+    var filmlerListesi = BehaviorSubject<[Filmler]>(value: [Filmler]())
+    
     init(){
         filmlerListesi = frepo.filmlerListesi
-        filmlerYukle()
+        filmleriYukle()
     }
-    func filmlerYukle(){
-        frepo.filmlerYukle()
+    
+    func filmleriYukle(){
+        frepo.filmleriYukle()
     }
 }
